@@ -2,6 +2,7 @@ package com.bignerdranch.android.criminalintent;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -20,6 +21,10 @@ public class CrimeFragment extends Fragment {
     private EditText mTitleField;
     private Button mDateButton;
     private CheckBox mSolvedCheckBox;
+
+    private Button mFirst;
+    private Button mLast;
+
 
     private static final String ARG_CRIME_ID = "crime_id";
 
@@ -43,6 +48,8 @@ public class CrimeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_crime, container, false);
+        final ViewPager vp = container.findViewById(R.id.crime_view_pager);
+
 
         mTitleField = (EditText) v.findViewById(R.id.c);
         mTitleField.setText(mCrime.getTitle());
@@ -74,6 +81,33 @@ public class CrimeFragment extends Fragment {
             public void onCheckedChanged(CompoundButton buttonView,
                                          boolean isChecked) {
                 mCrime.setSolved(isChecked);
+            }
+        });
+
+
+        mFirst = (Button) v.findViewById(R.id.crime_first);
+
+        mFirst.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CrimeLab cl;
+
+                cl = CrimeLab.get(getActivity());
+
+                vp.setCurrentItem(0);
+            }
+        });
+
+        mLast = (Button) v.findViewById(R.id.crime_last);
+
+        mLast.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CrimeLab cl;
+
+                cl = CrimeLab.get(getActivity());
+
+                vp.setCurrentItem(cl.getCrimes().size()-1);
             }
         });
 
